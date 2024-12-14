@@ -33,7 +33,9 @@
     `bundle exec rails server`
 
 - Database creation
+  
   `bin/rails db:create`
 
 - How to run the test suite
+  
   `bundle exec rspec`
