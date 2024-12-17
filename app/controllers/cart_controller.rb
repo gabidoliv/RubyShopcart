@@ -1,5 +1,5 @@
 class CartController < ApplicationController
-  #POST /cart
+
   def create
     # Case: verify if the cart already exists and in case it doesn't exist it should create a new one
     session[:cart_id] ||= Cart.create.id
@@ -39,4 +39,26 @@ class CartController < ApplicationController
         render json: { error: cart_item.errors.full_messages }, status: :unprocessable_entity
       end
     end
+  end
+
+  def show
+    cart = Cart.find(session[:cart_id])
+
+    if cart.cart_items.empty?
+      return render json: { error: 'No items' }, status: :not_found
+    end
+
+    render json: {
+      id: cart.id,
+      products: cart.cart_items.map do |item|
+        {
+          id: item.product.id,
+          name: item.product.name,
+          quantity: item.quantity,
+          unit_price: item.product.price.to_f,
+          total_price: (item.quantity * item.product.price).to_f
+        }
+      end,
+      total_price: cart.cart_items.sum { |item| item.quantity * item.product.price }.to_f
+    }, status: :ok
   end
