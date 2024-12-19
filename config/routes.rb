@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  post '/cart', to: 'cart#create'
-  get '/cart', to: 'cart#show'
+  resource :cart, only: [:create, :show]
+  post '/cart/add_item', to: 'carts#add_item'
+  patch '/cart/add_item', to: 'carts#update_item'
+  delete '/cart/:product_id', to: 'carts#destroy_item'
 end
