@@ -57,3 +57,7 @@
 - How to run the test suite
 
   `bundle exec rspec`
+
+- Docker
+
+  `docker-compose up --build`
