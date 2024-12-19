@@ -1,5 +1,10 @@
 class CartsController < ApplicationController
   def create
+    response = CartService.new(session[:cart_id]).add_product_to_cart(params[:product_id], params[:quantity].to_i)
+    render json: response, status: response.dig(:status) || :ok
+  end
+
+  def add_item
     cart_service = CartService.new(session[:cart_id])
     response = cart_service.add_product_to_cart(params[:product_id], params[:quantity].to_i)
     render json: response, status: response.dig(:status) || :ok
